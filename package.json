@@ -4,16 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose --no-watchman"
+    "test": "jest --verbose --no-watchman "
   },
   "jest": {
     "roots": [
-      "chapter1"
+      "chapter1",
+      "chapter2"
     ],
     "modulePaths": [
-      "chapter1"
+      "chapter1",
+      "chapter2"
     ],
     "unmockedModulePathPatterns": [
+      "<rootDir>/chapter2/linkedList",
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/react-addons-test-utils",
