@@ -1,0 +1,34 @@
+{
+  "name": "@stephen.standridge/coding_interview",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose --no-watchman"
+  },
+  "jest": {
+    "roots": [
+      "chapter1"
+    ],
+    "modulePaths": [
+      "chapter1"
+    ],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils",
+      "<rootDir>/node_modules/babel-runtime",
+      "<rootDir>/node_modules/enzyme",
+      "<rootDir>/node_modules/alt",
+      "<rootDir>/node_modules/core-js"
+    ]
+  },
+  "author": "stephen standridge <stephen@formisfunction.io> (https://www.formisfunction.io/)",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "babel-jest": "^28.1.3",
+    "jest": "^28.1.3"
+  }
+}
