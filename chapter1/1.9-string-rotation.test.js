@@ -35,6 +35,7 @@ function isRotation(string1, string2) {
     let testIndex = 0;
     let match = "";
 
+    //runs in O(n^m) time, not performant.
     for (let i = 0; i < string2.length; i++) {
         let char = string2[i];
         while (testIndex < string1.length) {
@@ -42,42 +43,47 @@ function isRotation(string1, string2) {
                 match = match.concat(char);
                 break;
             }
-            // rest = rest.concat(char);
             testIndex++;
         }
     }
-    console.log(match, string2.replace(match, ""));
     return isSubstring(string2.replace(match, ""), string1);
     //find part that matches original string
     //test rest is substring of original
 }
 
+function isRotationSimple(string1, string2) {
+    if (string1.length !== string2.length) return false;
+    let s1s1 = string1 + string1;
+    // runs in O(A+B) time
+    return isSubstring(string2, s1s1);
+}
+
 test("it works on left rotation", () => {
-    let result = isRotation(cases[0].rotateLeft, cases[0].original);
+    let result = isRotationSimple(cases[0].rotateLeft, cases[0].original);
     expect(result).toEqual(true);
 })
 
 test("it works on right rotation", () => {
-    let result = isRotation(cases[0].rotateRight, cases[0].original);
+    let result = isRotationSimple(cases[0].rotateRight, cases[0].original);
     expect(result).toEqual(true);
 })
 
 test("it works on bigger left rotation", () => {
-    let result = isRotation(cases[1].rotateLeft, cases[1].original);
+    let result = isRotationSimple(cases[1].rotateLeft, cases[1].original);
     expect(result).toEqual(true);
 })
 
 test("it works on bigger right rotation", () => {
-    let result = isRotation(cases[1].rotateRight, cases[1].original);
+    let result = isRotationSimple(cases[1].rotateRight, cases[1].original);
     expect(result).toEqual(true);
 })
 
 test("it fails if the strings aren't the right size", () => {
-    let result = isRotation(cases[2].rotateLeft, cases[2].original);
+    let result = isRotationSimple(cases[2].rotateLeft, cases[2].original);
     expect(result).toEqual(false);
 })
 
 test("it fails if the strings aren't actually a rotation", () => {
-    let result = isRotation(cases[3].rotateLeft, cases[3].original);
+    let result = isRotationSimple(cases[3].rotateLeft, cases[3].original);
     expect(result).toEqual(false);
 })
