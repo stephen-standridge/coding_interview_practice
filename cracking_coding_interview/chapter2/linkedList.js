@@ -16,8 +16,22 @@ export class Node {
         return this;
     }
 
+    appendNodeToTail(end) {
+        let n = this;
+        while (n.next !== null) {
+            n = n.next;
+        }
+        n.next = end;
+        return this;
+    }
+
     appendToHead(d) {
         let start = new Node(d);
+        start.next = this;
+        return start;
+    }
+
+    appendNodeToHead(start) {
         start.next = this;
         return start;
     }
@@ -233,5 +247,108 @@ export class Node {
     sumWithCarryRecursive(other, direction = "forward") {
         const { l1, l2 } = this.zeroPad(this, other, direction);
         return this.addList(l1, l2, 0, direction);
+    }
+
+    isPalindrome() {
+        let stack = [];
+        let isUneven = false;
+        let fast = this;
+        let slow = this;
+        //iterate over first half of list
+        while (fast !== null && fast.next !== null) {
+            stack.push(slow.data);
+            fast = fast.next;
+            fast = fast.next;
+            if (fast !== null && fast.next === null) isUneven = true;
+            slow = slow.next;
+        }
+        if (isUneven) slow = slow.next;
+        //check that against second half of list
+        while (slow !== null) {
+            if (slow.data !== stack.pop()) return false;
+            slow = slow.next;
+        }
+        return true;
+    }
+
+    lengthOfList() {
+        let head = this;
+        let count = 0;
+        while (head !== null) {
+            count += 1;
+            head = head.next;
+        }
+        return count;
+    }
+
+    isPalindromeRecursive(head, length) {
+        if (head == null || length <= 0) {
+            return { node: head, isPalindrome: true };
+        }
+        if (length == 1) {
+            return { node: head.next, isPalindrome: true };
+        }
+
+        let result = this.isPalindromeRecursive(head.next, length - 2);
+        if (!result.isPalindrome || result.node === null) {
+            return { node: null, isPalindrome: false };
+        }
+        result.isPalindrome = (head.data == result.node.data);
+        result.node = result.node.next;
+
+        return result;
+    }
+
+    findIntersection(list) {
+        let head = this;
+        let head2 = list;
+        let len1 = 0;
+        let len2 = 0;
+
+        //lists could be different lengths; get those lengths
+        while (head.next !== null || head2.next !== null) {
+            if (head.next !== null) {
+                len1 += 1;
+                head = head.next;
+            }
+            if (head2.next !== null) {
+                len2 += 1;
+                head2 = head2.next;
+            }
+        }
+
+        //intersection should result in last nodes being identical
+        if (head !== head2) return false;
+
+        //shorten lists to be same length
+        head = this;
+        head2 = list;
+        while (len1 > len2) {
+            head = head.next;
+            len1 -= 1;
+        }
+        while (len2 > len1) {
+            head2 = head2.next;
+            len2 -= 1;
+        }
+
+        //shorten lists to be same length
+        while (head.next !== null) {
+            if (head == head2) return head;
+            head = head.next;
+            head2 = head2.next;
+        }
+        return false;
+    }
+
+    detectLoop() {
+        let visited = {};
+        let head = this;
+        while (head.next !== null) {
+            if (visited[head.data]) return head;
+            visited[head.data] = true;
+            head = head.next;
+        }
+        return false;
     }
 }
